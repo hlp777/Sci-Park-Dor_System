@@ -1,8 +1,8 @@
 {
-  "name": "ruoyi",
+  "name": "hlp",
   "version": "3.8.8",
   "description": "科创园住宿服务系统",
-  "author": "若依",
+  "author": "hlp",
   "license": "MIT",
   "type": "module",
   "scripts": {
