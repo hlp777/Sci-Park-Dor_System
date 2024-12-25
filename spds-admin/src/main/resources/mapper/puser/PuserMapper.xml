@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spds.puser.mapper.PuserMapper">
+    
+    <resultMap type="Puser" id="PuserResult">
+        <result property="id"    column="id"    />
+        <result property="image"    column="image"    />
+        <result property="username"    column="username"    />
+        <result property="age"    column="age"    />
+        <result property="sex"    column="sex"    />
+        <result property="phone"    column="phone"    />
+        <result property="address"    column="address"    />
+    </resultMap>
+
+    <sql id="selectPuserVo">
+        select id, image, username, age, sex, phone, address from puser
+    </sql>
+
+    <select id="selectPuserList" parameterType="Puser" resultMap="PuserResult">
+        <include refid="selectPuserVo"/>
+        <where>  
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+        </where>
+    </select>
+    
+    <select id="selectPuserById" parameterType="Long" resultMap="PuserResult">
+        <include refid="selectPuserVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPuser" parameterType="Puser" useGeneratedKeys="true" keyProperty="id">
+        insert into puser
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="image != null">image,</if>
+            <if test="username != null and username != ''">username,</if>
+            <if test="age != null">age,</if>
+            <if test="sex != null">sex,</if>
+            <if test="phone != null">phone,</if>
+            <if test="address != null">address,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="image != null">#{image},</if>
+            <if test="username != null and username != ''">#{username},</if>
+            <if test="age != null">#{age},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="address != null">#{address},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePuser" parameterType="Puser">
+        update puser
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="image != null">image = #{image},</if>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="address != null">address = #{address},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePuserById" parameterType="Long">
+        delete from puser where id = #{id}
+    </delete>
+
+    <delete id="deletePuserByIds" parameterType="String">
+        delete from puser where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
