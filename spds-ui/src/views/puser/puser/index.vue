@@ -108,7 +108,7 @@
           <el-input v-model="form.username" placeholder="请输入用户名" />
         </el-form-item>
         <el-form-item label="年龄" prop="age">
-          <el-input v-model="form.age" placeholder="请输入年龄" />
+          <el-input v-model="form.age" placeholder="请输入年龄" type="number" min="1" max="100" />
         </el-form-item>
         <el-form-item label="性别" prop="sex">
           <el-select v-model="form.sex" placeholder="请选择性别">
@@ -161,12 +161,14 @@ const data = reactive({
     username: null,
     phone: null,
   },
+
   rules: {
     username: [
       { required: true, message: "用户名不能为空", trigger: "blur" }
     ],
     age: [
-      { required: true, message: "年龄不能为空", trigger: "blur" }
+      { required: true, message: "年龄不能为空", trigger: "blur"},
+      { min: 1, message: "年龄必须大于1", trigger: "blur" }
     ],
     sex: [
       { required: true, message: "性别不能为空", trigger: "change" }
@@ -266,8 +268,9 @@ function submitForm() {
 
 /** 删除按钮操作 */
 function handleDelete(row) {
-  const _ids = row.username;
-  proxy.$modal.confirm('是否确认删除用户管理编号为"' + _ids + '"的数据项？').then(function() {
+  const _ids = row.id || ids.value;
+  const username = row.username;
+  proxy.$modal.confirm('是否确认删除用户为"' + username + '"的数据项？').then(function() {
     return delPuser(_ids);
   }).then(() => {
     getList();
