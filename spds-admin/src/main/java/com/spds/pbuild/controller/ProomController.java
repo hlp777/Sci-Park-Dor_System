@@ -2,6 +2,8 @@ package com.spds.pbuild.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.spds.pbuild.domain.vo.ProomVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +25,7 @@ import com.spds.common.core.page.TableDataInfo;
 
 /**
  * 房间管理Controller
- * 
+ *
  * @author hlp
  * @date 2024-12-26
  */
@@ -41,9 +43,14 @@ public class ProomController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(Proom proom)
     {
+        //startPage();
+        //List<Proom> list = proomService.selectProomList(proom);
+        //return getDataTable(list);
+
         startPage();
-        List<Proom> list = proomService.selectProomList(proom);
+        List<ProomVo> list = proomService.selectProomListVo(proom);
         return getDataTable(list);
+
     }
 
     /**

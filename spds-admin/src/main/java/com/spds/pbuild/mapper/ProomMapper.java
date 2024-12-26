@@ -2,18 +2,19 @@ package com.spds.pbuild.mapper;
 
 import java.util.List;
 import com.spds.pbuild.domain.Proom;
+import com.spds.pbuild.domain.vo.ProomVo;
 
 /**
  * 房间管理Mapper接口
- * 
+ *
  * @author hlp
  * @date 2024-12-26
  */
-public interface ProomMapper 
+public interface ProomMapper
 {
     /**
      * 查询房间管理
-     * 
+     *
      * @param roomId 房间管理主键
      * @return 房间管理
      */
@@ -21,7 +22,7 @@ public interface ProomMapper
 
     /**
      * 查询房间管理列表
-     * 
+     *
      * @param proom 房间管理
      * @return 房间管理集合
      */
@@ -29,7 +30,7 @@ public interface ProomMapper
 
     /**
      * 新增房间管理
-     * 
+     *
      * @param proom 房间管理
      * @return 结果
      */
@@ -37,7 +38,7 @@ public interface ProomMapper
 
     /**
      * 修改房间管理
-     * 
+     *
      * @param proom 房间管理
      * @return 结果
      */
@@ -45,7 +46,7 @@ public interface ProomMapper
 
     /**
      * 删除房间管理
-     * 
+     *
      * @param roomId 房间管理主键
      * @return 结果
      */
@@ -53,9 +54,17 @@ public interface ProomMapper
 
     /**
      * 批量删除房间管理
-     * 
+     *
      * @param roomIds 需要删除的数据主键集合
      * @return 结果
      */
     public int deleteProomByRoomIds(Long[] roomIds);
+
+    /**
+     * 通过联表的方式查询房间管理列表
+     *
+     * @param proom 房间管理
+     * @return 房间管理集合
+     */
+    public List<ProomVo> selectProomListVo(Proom proom);
 }

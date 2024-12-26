@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="楼号" prop="buildingId">
+      <el-form-item label="楼名" prop="buildingId">
         <el-input
           v-model="queryParams.buildingId"
           placeholder="请输入楼号"
@@ -86,7 +86,7 @@
     <el-table v-loading="loading" :data="proomList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" align="center" prop="roomId" />
-      <el-table-column label="楼名" align="center" prop="buildingId" />
+      <el-table-column label="楼名" align="center" prop="buildingName" />
       <el-table-column label="房间号" align="center" prop="roomNumber" />
       <el-table-column label="容量" align="center" prop="capacity" />
       <el-table-column label="状态" align="center" prop="status">
