@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spds.pbuild.mapper.PbuildingMapper">
+    
+    <resultMap type="Pbuilding" id="PbuildingResult">
+        <result property="buildingId"    column="building_id"    />
+        <result property="buildingName"    column="building_name"    />
+        <result property="location"    column="location"    />
+    </resultMap>
+
+    <resultMap id="PbuildingProomResult" type="Pbuilding" extends="PbuildingResult">
+        <collection property="proomList" ofType="Proom" column="building_id" select="selectProomList" />
+    </resultMap>
+
+    <resultMap type="Proom" id="ProomResult">
+        <result property="roomId"    column="room_id"    />
+        <result property="buildingId"    column="building_id"    />
+        <result property="roomNumber"    column="room_number"    />
+        <result property="capacity"    column="capacity"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectPbuildingVo">
+        select building_id, building_name, location from pbuilding
+    </sql>
+
+    <select id="selectPbuildingList" parameterType="Pbuilding" resultMap="PbuildingResult">
+        <include refid="selectPbuildingVo"/>
+        <where>  
+            <if test="buildingName != null  and buildingName != ''"> and building_name like concat('%', #{buildingName}, '%')</if>
+            <if test="location != null  and location != ''"> and location = #{location}</if>
+        </where>
+    </select>
+    
+    <select id="selectPbuildingByBuildingId" parameterType="Long" resultMap="PbuildingProomResult">
+        select building_id, building_name, location
+        from pbuilding
+        where building_id = #{buildingId}
+    </select>
+
+    <select id="selectProomList" resultMap="ProomResult">
+        select room_id, building_id, room_number, capacity, status
+        from proom
+        where building_id = #{building_id}
+    </select>
+
+    <insert id="insertPbuilding" parameterType="Pbuilding" useGeneratedKeys="true" keyProperty="buildingId">
+        insert into pbuilding
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="buildingName != null and buildingName != ''">building_name,</if>
+            <if test="location != null">location,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="buildingName != null and buildingName != ''">#{buildingName},</if>
+            <if test="location != null">#{location},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePbuilding" parameterType="Pbuilding">
+        update pbuilding
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="buildingName != null and buildingName != ''">building_name = #{buildingName},</if>
+            <if test="location != null">location = #{location},</if>
+        </trim>
+        where building_id = #{buildingId}
+    </update>
+
+    <delete id="deletePbuildingByBuildingId" parameterType="Long">
+        delete from pbuilding where building_id = #{buildingId}
+    </delete>
+
+    <delete id="deletePbuildingByBuildingIds" parameterType="String">
+        delete from pbuilding where building_id in 
+        <foreach item="buildingId" collection="array" open="(" separator="," close=")">
+            #{buildingId}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteProomByBuildingIds" parameterType="String">
+        delete from proom where building_id in 
+        <foreach item="buildingId" collection="array" open="(" separator="," close=")">
+            #{buildingId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteProomByBuildingId" parameterType="Long">
+        delete from proom where building_id = #{buildingId}
+    </delete>
+
+    <insert id="batchProom">
+        insert into proom( room_id, building_id, room_number, capacity, status) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.roomId}, #{item.buildingId}, #{item.roomNumber}, #{item.capacity}, #{item.status})
+        </foreach>
+    </insert>
+</mapper>
