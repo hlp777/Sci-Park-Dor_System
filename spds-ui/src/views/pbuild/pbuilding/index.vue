@@ -266,7 +266,7 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _buildingIds = row.buildingId || ids.value;
-  proxy.$modal.confirm('是否确认删除楼层管理编号为"' + _buildingIds + '"的数据项？').then(function() {
+  proxy.$modal.confirm('是否确认删除楼层编号为"' + _buildingIds + '"的数据项？').then(function() {
     return delPbuilding(_buildingIds);
   }).then(() => {
     getList();

@@ -113,7 +113,7 @@
     <!-- 添加或修改房间管理对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="proomRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="楼号" prop="buildingId">
+        <el-form-item label="楼号" prop="buildingId" v-if="!isEdit">
           <el-input v-model="form.buildingId" placeholder="请输入楼号" />
         </el-form-item>
         <el-form-item label="房间号" prop="roomNumber">
@@ -157,6 +157,7 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+const isEdit = ref(false);
 
 const data = reactive({
   form: {},
@@ -233,6 +234,7 @@ function handleSelectionChange(selection) {
 /** 新增按钮操作 */
 function handleAdd() {
   reset();
+  isEdit.value = false;
   open.value = true;
   title.value = "添加房间管理";
 }
@@ -240,6 +242,7 @@ function handleAdd() {
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
+  isEdit.value = true;
   const _roomId = row.roomId || ids.value
   getProom(_roomId).then(response => {
     form.value = response.data;
@@ -272,7 +275,7 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _roomIds = row.roomId || ids.value;
-  proxy.$modal.confirm('是否确认删除房间管理编号为"' + _roomIds + '"的数据项？').then(function() {
+  proxy.$modal.confirm('是否确认删除房间编号为"' + _roomIds + '"的数据项？').then(function() {
     return delProom(_roomIds);
   }).then(() => {
     getList();
