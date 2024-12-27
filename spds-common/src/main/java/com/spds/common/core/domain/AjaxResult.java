@@ -7,7 +7,7 @@ import com.spds.common.utils.StringUtils;
 
 /**
  * 操作消息提醒
- * 
+ *
  * @author ruoyi
  */
 public class AjaxResult extends HashMap<String, Object>
@@ -32,7 +32,7 @@ public class AjaxResult extends HashMap<String, Object>
 
     /**
      * 初始化一个新创建的 AjaxResult 对象
-     * 
+     *
      * @param code 状态码
      * @param msg 返回内容
      */
@@ -44,7 +44,7 @@ public class AjaxResult extends HashMap<String, Object>
 
     /**
      * 初始化一个新创建的 AjaxResult 对象
-     * 
+     *
      * @param code 状态码
      * @param msg 返回内容
      * @param data 数据对象
@@ -61,7 +61,7 @@ public class AjaxResult extends HashMap<String, Object>
 
     /**
      * 返回成功消息
-     * 
+     *
      * @return 成功消息
      */
     public static AjaxResult success()
@@ -71,7 +71,7 @@ public class AjaxResult extends HashMap<String, Object>
 
     /**
      * 返回成功数据
-     * 
+     *
      * @return 成功消息
      */
     public static AjaxResult success(Object data)
@@ -81,7 +81,7 @@ public class AjaxResult extends HashMap<String, Object>
 
     /**
      * 返回成功消息
-     * 
+     *
      * @param msg 返回内容
      * @return 成功消息
      */
@@ -92,7 +92,7 @@ public class AjaxResult extends HashMap<String, Object>
 
     /**
      * 返回成功消息
-     * 
+     *
      * @param msg 返回内容
      * @param data 数据对象
      * @return 成功消息
@@ -127,7 +127,7 @@ public class AjaxResult extends HashMap<String, Object>
 
     /**
      * 返回错误消息
-     * 
+     *
      * @return 错误消息
      */
     public static AjaxResult error()
@@ -136,8 +136,38 @@ public class AjaxResult extends HashMap<String, Object>
     }
 
     /**
+     * 返回用户存在错误消息
+     *
+     * @return 错误消息
+     */
+    public static AjaxResult userexist()
+    {
+        return AjaxResult.error("用户已入住");
+    }
+
+    /**
+     * 返回用户，楼名或房间号不存在错误消息
+     *
+     * @return 错误消息
+     */
+    public static AjaxResult datanoexist()
+    {
+        return AjaxResult.error("用户，楼名或房间号不存在");
+    }
+
+    /**
+     * 返回房间人数已满的错误消息
+     *
+     * @return 错误消息
+     */
+    public static AjaxResult roomNumberFull()
+    {
+        return AjaxResult.error("房间人数已满");
+    }
+
+    /**
      * 返回错误消息
-     * 
+     *
      * @param msg 返回内容
      * @return 错误消息
      */
@@ -148,7 +178,7 @@ public class AjaxResult extends HashMap<String, Object>
 
     /**
      * 返回错误消息
-     * 
+     *
      * @param msg 返回内容
      * @param data 数据对象
      * @return 错误消息
@@ -160,7 +190,7 @@ public class AjaxResult extends HashMap<String, Object>
 
     /**
      * 返回错误消息
-     * 
+     *
      * @param code 状态码
      * @param msg 返回内容
      * @return 错误消息

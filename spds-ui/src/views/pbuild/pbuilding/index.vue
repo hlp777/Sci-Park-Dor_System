@@ -67,7 +67,7 @@
 
     <el-table v-loading="loading" :data="pbuildingList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" prop="buildingId" />
+      <!-- <el-table-column label="序号" align="center" prop="buildingId" /> -->
       <el-table-column label="楼名" align="center" prop="buildingName" />
       <el-table-column label="地址" align="center" prop="location" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -90,7 +90,7 @@
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="pbuildingRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="楼名" prop="buildingName">
-          <el-input v-model="form.buildingName" placeholder="请输入楼名" />
+          <el-input v-model="form.buildingName" placeholder="请输入楼名"/>
         </el-form-item>
         <el-form-item label="地址" prop="location">
           <el-input v-model="form.location" placeholder="请输入地址" />
@@ -106,7 +106,7 @@
         </el-row>
         <el-table :data="proomList" :row-class-name="rowProomIndex" @selection-change="handleProomSelectionChange" ref="proom">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column label="序号" align="center" prop="index" width="50"/>
+          <!-- <el-table-column label="序号" align="center" prop="index" width="50"/> -->
           <el-table-column label="房间号" prop="roomNumber" width="150">
             <template #default="scope">
               <el-input v-model="scope.row.roomNumber" placeholder="请输入房间号" />
@@ -266,7 +266,8 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _buildingIds = row.buildingId || ids.value;
-  proxy.$modal.confirm('是否确认删除楼层编号为"' + _buildingIds + '"的数据项？').then(function() {
+  const name = row.buildingName || "";
+  proxy.$modal.confirm('是否确认删除楼名为"' + name + '"的数据项？').then(function() {
     return delPbuilding(_buildingIds);
   }).then(() => {
     getList();

@@ -85,7 +85,7 @@
 
     <el-table v-loading="loading" :data="proomList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" prop="roomId" />
+      <!-- <el-table-column label="序号" align="center" prop="roomId" /> -->
       <el-table-column label="楼名" align="center" prop="buildingName" />
       <el-table-column label="房间号" align="center" prop="roomNumber" />
       <el-table-column label="容量" align="center" prop="capacity" />

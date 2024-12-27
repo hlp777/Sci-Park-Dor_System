@@ -111,7 +111,7 @@
     <!-- 添加或修改宿舍分配对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="pdormalloRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="用户名" prop="userName">
+        <el-form-item label="用户名" prop="userName" v-if="!isEdit">
           <el-input v-model="form.userName" placeholder="请输入用户名" />
         </el-form-item>
         <el-form-item label="楼名" prop="buildingName">
@@ -153,6 +153,8 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+
+const isEdit = ref(false);
 
 const data = reactive({
   form: {},
@@ -231,6 +233,7 @@ function handleSelectionChange(selection) {
 
 /** 新增按钮操作 */
 function handleAdd() {
+  isEdit.value = false;
   reset();
   open.value = true;
   title.value = "添加宿舍分配";
@@ -238,6 +241,7 @@ function handleAdd() {
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
+  isEdit.value = true;
   reset();
   const _id = row.id || ids.value
   getPdormallo(_id).then(response => {
@@ -271,7 +275,8 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _ids = row.id || ids.value;
-  proxy.$modal.confirm('是否确认删除宿舍分配编号为"' + _ids + '"的数据项？').then(function() {
+  const username = row.userName;
+  proxy.$modal.confirm('是否确认删除用户名为"' + username + '"的数据项？').then(function() {
     return delPdormallo(_ids);
   }).then(() => {
     getList();
