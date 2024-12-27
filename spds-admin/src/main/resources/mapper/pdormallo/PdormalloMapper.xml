@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spds.pdormallo.mapper.PdormalloMapper">
+    
+    <resultMap type="Pdormallo" id="PdormalloResult">
+        <result property="id"    column="id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="buildingName"    column="building_name"    />
+        <result property="roomNumber"    column="room_number"    />
+        <result property="checkinTime"    column="checkin_time"    />
+    </resultMap>
+
+    <sql id="selectPdormalloVo">
+        select id, user_name, building_name, room_number, checkin_time from pdormallo
+    </sql>
+
+    <select id="selectPdormalloList" parameterType="Pdormallo" resultMap="PdormalloResult">
+        <include refid="selectPdormalloVo"/>
+        <where>  
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="buildingName != null  and buildingName != ''"> and building_name like concat('%', #{buildingName}, '%')</if>
+            <if test="roomNumber != null  and roomNumber != ''"> and room_number = #{roomNumber}</if>
+            <if test="checkinTime != null "> and checkin_time = #{checkinTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectPdormalloById" parameterType="Long" resultMap="PdormalloResult">
+        <include refid="selectPdormalloVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPdormallo" parameterType="Pdormallo" useGeneratedKeys="true" keyProperty="id">
+        insert into pdormallo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="buildingName != null and buildingName != ''">building_name,</if>
+            <if test="roomNumber != null and roomNumber != ''">room_number,</if>
+            <if test="checkinTime != null">checkin_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="buildingName != null and buildingName != ''">#{buildingName},</if>
+            <if test="roomNumber != null and roomNumber != ''">#{roomNumber},</if>
+            <if test="checkinTime != null">#{checkinTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePdormallo" parameterType="Pdormallo">
+        update pdormallo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="buildingName != null and buildingName != ''">building_name = #{buildingName},</if>
+            <if test="roomNumber != null and roomNumber != ''">room_number = #{roomNumber},</if>
+            <if test="checkinTime != null">checkin_time = #{checkinTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePdormalloById" parameterType="Long">
+        delete from pdormallo where id = #{id}
+    </delete>
+
+    <delete id="deletePdormalloByIds" parameterType="String">
+        delete from pdormallo where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
