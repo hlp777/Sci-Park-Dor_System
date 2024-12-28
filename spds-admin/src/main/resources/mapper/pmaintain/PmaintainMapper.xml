@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spds.pmaintain.mapper.PmaintainMapper">
+    
+    <resultMap type="Pmaintain" id="PmaintainResult">
+        <result property="id"    column="id"    />
+        <result property="buildingName"    column="building_name"    />
+        <result property="roomNumber"    column="room_number"    />
+        <result property="time"    column="time"    />
+        <result property="description"    column="description"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectPmaintainVo">
+        select id, building_name, room_number, time, description, status from pmaintain
+    </sql>
+
+    <select id="selectPmaintainList" parameterType="Pmaintain" resultMap="PmaintainResult">
+        <include refid="selectPmaintainVo"/>
+        <where>  
+            <if test="buildingName != null  and buildingName != ''"> and building_name like concat('%', #{buildingName}, '%')</if>
+            <if test="roomNumber != null  and roomNumber != ''"> and room_number = #{roomNumber}</if>
+            <if test="time != null "> and time = #{time}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectPmaintainById" parameterType="Long" resultMap="PmaintainResult">
+        <include refid="selectPmaintainVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPmaintain" parameterType="Pmaintain" useGeneratedKeys="true" keyProperty="id">
+        insert into pmaintain
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="buildingName != null and buildingName != ''">building_name,</if>
+            <if test="roomNumber != null and roomNumber != ''">room_number,</if>
+            <if test="time != null">time,</if>
+            <if test="description != null and description != ''">description,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="buildingName != null and buildingName != ''">#{buildingName},</if>
+            <if test="roomNumber != null and roomNumber != ''">#{roomNumber},</if>
+            <if test="time != null">#{time},</if>
+            <if test="description != null and description != ''">#{description},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePmaintain" parameterType="Pmaintain">
+        update pmaintain
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="buildingName != null and buildingName != ''">building_name = #{buildingName},</if>
+            <if test="roomNumber != null and roomNumber != ''">room_number = #{roomNumber},</if>
+            <if test="time != null">time = #{time},</if>
+            <if test="description != null and description != ''">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePmaintainById" parameterType="Long">
+        delete from pmaintain where id = #{id}
+    </delete>
+
+    <delete id="deletePmaintainByIds" parameterType="String">
+        delete from pmaintain where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
