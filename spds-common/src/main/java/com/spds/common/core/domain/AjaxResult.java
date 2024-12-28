@@ -156,6 +156,16 @@ public class AjaxResult extends HashMap<String, Object>
     }
 
     /**
+     * 返回用户，楼名或房间号不存在错误消息
+     *
+     * @return 错误消息
+     */
+    public static AjaxResult buildorroomnoexist()
+    {
+        return AjaxResult.error("楼名或房间号不存在");
+    }
+
+    /**
      * 返回房间人数已满的错误消息
      *
      * @return 错误消息

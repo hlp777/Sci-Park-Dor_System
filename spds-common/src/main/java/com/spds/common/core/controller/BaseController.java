@@ -155,6 +155,8 @@ public class BaseController
                 return AjaxResult.datanoexist();
             }else if(rows == -3){
                 return AjaxResult.roomNumberFull();
+            }else if(rows == -4){
+                return AjaxResult.buildorroomnoexist();
             }else {
                 return AjaxResult.error();
             }
