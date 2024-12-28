@@ -77,6 +77,7 @@ public class PdormalloServiceImpl implements IPdormalloService
 
         Proom proom = new Proom();
         proom.setRoomNumber(pdormallo.getRoomNumber());
+
         if (puserMapper.selectPuserList(puser).size() == 0) {
             return -1;
         }else if(pbuildingMapper.selectPbuildingList(pbuilding).size() == 0){
@@ -139,6 +140,16 @@ public class PdormalloServiceImpl implements IPdormalloService
 
         Proom proom = new Proom();
         proom.setRoomNumber(pdormallo.getRoomNumber());
+
+        Pdormallo pdormallo2 = new Pdormallo();
+        pdormallo2.setRoomNumber(pdormallo.getRoomNumber());
+        pdormallo2.setBuildingName(pdormallo.getBuildingName());
+
+        ProomVo proom1 = new ProomVo();
+        proom1.setRoomNumber(pdormallo.getRoomNumber());
+        proom1.setBuildingName(pdormallo.getBuildingName());
+        Long capacity = proomMapper.selectProomListVo(proom1).get(0).getCapacity();
+
         if (puserMapper.selectPuserList(puser).size() == 0) {
             return -1;
         }else if(pbuildingMapper.selectPbuildingList(pbuilding).size() == 0){
@@ -146,7 +157,12 @@ public class PdormalloServiceImpl implements IPdormalloService
         }else if(proomMapper.selectProomList(proom).size() == 0){
             return -1;
         }else {
-            return pdormalloMapper.updatePdormallo(pdormallo);
+            // 判断该宿舍是否已满
+            if(pdormalloMapper.selectPdormalloList(pdormallo2).size() + 1 <= Integer.parseInt(capacity.toString())){
+                return pdormalloMapper.updatePdormallo(pdormallo);
+            }else {
+                return -3;
+            }
         }
 
         //return pdormalloMapper.updatePdormallo(pdormallo);
