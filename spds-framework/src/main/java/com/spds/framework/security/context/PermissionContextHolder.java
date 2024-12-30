@@ -6,8 +6,8 @@ import com.spds.common.core.text.Convert;
 
 /**
  * 权限信息
- * 
- * @author ruoyi
+ *
+ * @author hlp
  */
 public class PermissionContextHolder
 {

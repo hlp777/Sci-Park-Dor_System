@@ -18,8 +18,8 @@ import com.spds.framework.web.service.TokenService;
 
 /**
  * token过滤器 验证token有效性
- * 
- * @author ruoyi
+ *
+ * @author hlp
  */
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter

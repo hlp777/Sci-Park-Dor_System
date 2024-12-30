@@ -80,7 +80,8 @@
 // }
 
 .main {
-  height: 800px;
+  height: 1440px;
+  width: 2560px;
   background-image: url("../assets/images/background1.jpg");
   background-size: cover;
 }
@@ -93,22 +94,22 @@
 }
 
 .title {
-  font-size: 50px;
+  font-size: 70px;
   color: #fff;
   text-align: center;
   margin: 0;
-  padding: 100px 0 20px 0;
+  padding: 200px 0 20px 0;
 }
 
 .s {
-  font-size: 65px;
+  font-size: 90px;
   color: rgb(39, 169, 245);
   text-align: center;
   margin: 0;
 }
 
 .p1 {
-  font-size: 30px;
+  font-size: 40px;
   color: #fff;
   text-align: center;
   margin: 0;
